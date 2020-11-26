@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="org.jsp.board.service.SCustomerMapper">
+  
+  	<insert id="joinCustomer" parameterType="sc">
+  		INSERT INTO scustomer(custid, password, name, email, division, idno, address)
+  		VALUES (#{custid}, #{password}, #{name}, #{email}, #{division}, #{idno}, #{address})
+  	</insert>
+  	
+  	<update id="updateCustomer" parameterType="sc">
+  		UPDATE scustomer
+  		SET password = #{password}, name = #{name}, email = #{email}, division = #{division}
+  		, idno = #{idno}, address = #{address}
+  		WHERE custid = #{custid} 
+  	</update>
+  	
+  	<delete id="deleteCustomer">
+  	DELETE 
+  	FROM scustomer
+  	WHERE custid = #{custid} AND password = #{password}
+  	</delete>
+  	
+  	<select id="login" parameterType="sc" resultType="sc">
+  	SELECT *
+  	FROM scustomer
+  	WHERE custid = #{custid} AND password = #{password}
+  	</select>
+  	
+  	<select id="checkId" resultType="string">
+  	SELECT custid
+  	FROM scustomer
+  	WHERE custid = #{custid}
+  	</select>
+  
+  </mapper>

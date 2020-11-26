@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="org.jsp.board.service.BoardMapper">
+  	<insert id="insertBoard" parameterType="sb">
+  		INSERT INTO sboard(boardnum, custid, title, content,pw)
+  		VALUES (sboard_seq.nextval,#{custid}, #{title}, #{content},#{pw})
+  	</insert>
+  	
+  	<select id="selectAll" resultType="sb">
+		SELECT *
+		FROM sboard 
+		ORDER BY boardnum desc	
+  	</select>
+  	
+  	<select id="getBoard" resultType="sb">
+		SELECT boardnum, custid, title, content, 
+		to_char(inputdate,'yyyy/mm/dd') as inputdate,hits,pw
+		FROM sboard 
+		WHERE boardnum = #{boardnum}	
+  	</select>
+  	
+  	<update id="updateBoard" parameterType="sb">
+  		UPDATE sboard
+  		SET custid = #{custid}, title = #{title}, content = #{content}, pw = #{pw}
+  		WHERE pw = #{pw}
+  	</update>
+  	
+  	<delete id="deleteBoard" parameterType="string">
+  		DELETE sboard
+  		WHERE pw = #{pw}
+  	</delete>
+  	
+  	<select id="checkPw" resultType="int">
+        SELECT COUNT(*) 
+        FROM sboard
+        WHERE pw = #{pw}
+    </select>
+    
+    <update id="addHits">
+    	UPDATE sboard
+    	SET hits = hits + 1
+    	WHERE boardnum = #{boardnum}
+    </update>
+  </mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="org.jsp.board.service.ProductMapper">
+
+  	<select id="getProductStockInfo" resultType="p">
+		SELECT *
+		FROM product
+		WHERE location = #{location} AND productserialnumber = #{productserialnumber}
+  	</select>
+  	
+  	<select id="getShoppingList" resultType="sl">
+		SELECT *
+		FROM shoppinglist
+		WHERE custid = #{custid}
+  	</select>
+  	
+  	<select id="getSCDInfo" resultType="p">
+		SELECT *
+		FROM product
+		WHERE category LIKE '%scd%'
+  	</select>
+  	
+  	<select id="getBInfo" resultType="p">
+		SELECT *
+		FROM product
+		WHERE category LIKE '%b%'
+  	</select>
+  	
+  	<select id="getLInfo" resultType="p">
+		SELECT *
+		FROM product
+		WHERE category LIKE '%l%'
+  	</select>
+  	
+  	<insert id="insertOrderProduct" parameterType="op">
+  		INSERT
+  		INTO orderproduct
+  		VALUES(#{productserialnumber},#{productname},#{amount},#{price},#{custid},#{name},#{address},#{payment})
+  	</insert>
+  	
+  	<insert id="insertShoppinglist" parameterType="sl">
+  		INSERT
+  		INTO shoppinglist
+  		VALUES(#{custid},#{productserialnumber},#{productname},#{amount},#{price})
+  	</insert>
+  	
+  	<delete id="deleteShoppinglist">
+  		DELETE
+  		FROM shoppinglist
+  		WHERE productserialnumber = #{productserialnumber}
+  	</delete>
+  	
+  	<!-- 주문하면 product 디비 수량에서 주문한만큼 마이너스 시킴 업데이트 -->
+  	<update id="updateStock">
+  		UPDATE product
+  		SET stock = stock - #{amount}
+  		WHERE productserialnumber = #{productserialnumber}
+  	</update>
+
+  </mapper>

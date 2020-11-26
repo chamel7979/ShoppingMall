@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- bean은 스프링에서 자동적으로 생성해주는 객체개념 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+		<!-- 매개변수를 property 태그로 전달해줌 -->
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="hr" /> <!-- 사이에 넣을값이 없기때문에 이렇게 표현가능 -->
+		<property name="password" value="hr"></property>
+		<!-- 이 밸류값을 디비에 전달해주면 디비가 커넥션을 줌 -->
+	</bean>
+	
+	<!-- mybatis 세션을 사용하기 위한 세션팩토리 등록 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
+		<property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml"/>
+	</bean>
+	
+	<!-- sqlSessionTemplate 등록, 디비의 트랜잭션 처리를 관리해준다 -->
+	<!-- commit 할필요 없음 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+	destroy-method="clearCache">
+	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory">
+	</constructor-arg>
+	</bean>
+	
+	<!-- 패키지명만 적어주면 쭉 스캔해서  -->
+	<context:component-scan base-package="org.jsp.board.service"/>
+	
+</beans>

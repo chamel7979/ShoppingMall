@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- mapper 나 alias 넣을때 사용하면된다 -->
+
+<configuration>
+	<typeAliases>
+	<typeAlias type="org.jsp.board.vo.SBoard" alias="sb"/>
+	<typeAlias type="org.jsp.board.vo.SCustomer" alias="sc"/>
+	<typeAlias type="org.jsp.board.vo.Product" alias="p"/>
+	<typeAlias type="org.jsp.board.vo.Orderproduct" alias="op"/>
+	<typeAlias type="org.jsp.board.vo.Shoppinglist" alias="sl"/>
+	</typeAliases>
+</configuration>
